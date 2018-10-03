@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Ираклий К. ДЗ 2</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
 </head>
@@ -27,62 +27,73 @@
                 <p class="list-group-item-text age"></p>
                 <p class="list-group-item-text id"></p>
             </a>
-            <a href="#" class="list-group-item">
-                <h4 class="list-group-item-heading name">2</h4>
-                <p class="list-group-item-text email">3</p>
-                <p class="list-group-item-text age">4</p>
-                <p class="list-group-item-text id">5</p>
-            </a> <a href="#" class="list-group-item">
-                <h4 class="list-group-item-heading name">6</h4>
-                <p class="list-group-item-text email">7</p>
-                <p class="list-group-item-text age">8</p>
-                <p class="list-group-item-text id">9</p>
-            </a> <a href="#" class="list-group-item">
-                <h4 class="list-group-item-heading name"></h4>
-                <p class="list-group-item-text email"></p>
-                <p class="list-group-item-text age"></p>
-                <p class="list-group-item-text id"></p>
-            </a> <a href="#" class="list-group-item">
-                <h4 class="list-group-item-heading name"></h4>
-                <p class="list-group-item-text email"></p>
-                <p class="list-group-item-text age"></p>
-                <p class="list-group-item-text id"></p>
-            </a>
         </div>
         <form action="#" class="message-form mt-5">
             <div class="form-group">
                 <label for="name">Имя</label>
-                <input type="text" class="name form-control" id="name" placeholder="Имя">
+                <input type="text" class="name form-control" id="name" placeholder="Имя" required>
                 <label for="email">Эл. Почта</label>
-                <input type="email" class="e-mail form-control" id="email" placeholder="e-mail">
+                <input type="email" class="e-mail form-control" id="email" placeholder="e-mail" required>
                 <label for="age">Возраст</label>
-                <input type="number" class="age form-control" id="age" placeholder="Возраст">
+                <input type="number" class="age form-control" id="age" placeholder="Возраст" required>
             </div>
             <button type="submit" class="btn btn-primary">Добавить</button>
         </form>
     </div>
 
     <script>
-        const container = document.querySelector('.container');
+        function showAddUser() {
+            let userData = []; //массив пользователей
 
-        const userList = container.querySelectorAll('.list-group-item');
-        userList.addEventListener('click', function () {
-            this.classList.add('active');
-            // if (this.classList.contains('active')) {
-            //     this.classList.remove('active');
-            // }
-        })
+            const userDataTemplate = document.querySelector('.list-group-item'); //шаблон карточки пользователя
+            const userDataContainer = document.querySelector('.list-group'); //контейнер
 
-        let userName = container.querySelector('.name');
-        userName.innerHTML = 'Denis';
 
-        let userMail = container.querySelector('.email');
-        let userAge = container.querySelector('.age');
-        let userId = container.querySelector('.id');
+            fetch('http://89.108.65.123/user/').then(function (result) {
+                return result.json()
+            }).then(function (text) {
+                userData = text
+                for (i = 0; i < userData.length; i++) {
+                    const userDataTemplateClone = userDataTemplate.cloneNode(true); //клонируем карточку
 
-        userMail.innerHTML = 'lox@mail.ru';
-        userAge.innerHTML = 25;
-        userId.innerHTML = 105;
+                    userDataContainer.appendChild(userDataTemplateClone); //добавляем карточки на страницу
+
+                    /*проверяем на отсутствие данных, к сожалению, некоторые пользователи записаны в виде массива,
+                    как вытащить данные из него - не разобрался, из-за этого появились пустые строки */
+
+                    if (userData[i].name == undefined || userData[i].email == undefined || userData[i].age ==
+                        undefined) {
+                        userDataTemplateClone.children[0].innerText = 'Нет данных'
+                        userDataTemplateClone.children[1].innerText = 'Нет данных'
+                        userDataTemplateClone.children[2].innerText = 'Нет данных'
+                        userDataTemplateClone.children[3].innerText = `ID: ${i}`; //айди решил считать на пользовательской стороне
+                    } else {
+                        userDataTemplateClone.children[0].innerText = userData[i].name;
+                        userDataTemplateClone.children[1].innerText = `E-Mail: ${userData[i].email}`;
+                        userDataTemplateClone.children[2].innerText = `Возраст: ${userData[i].age}`;
+                        userDataTemplateClone.children[3].innerText = `ID: ${i}`;
+                    }
+                    
+                    /*цепляем на ссылки функцию, меняющую у них класс, для отображения/скрытия доп. инфы*/
+
+                    userDataContainer.children[i].addEventListener('click', function (e) {
+                        e.preventDefault();
+                        if (this.classList.contains('active')) {
+                            this.classList.remove('active');
+                        } else {
+                            this.classList.add('active');
+                        }
+                    })
+
+                }
+                userDataContainer.removeChild(userDataTemplate); //удаляем шаблон
+                return text
+            }).catch(function (error) {
+                console.log(error)
+            })
+        }
+
+        window.onload = showAddUser;
     </script>
 </body>
 

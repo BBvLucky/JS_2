@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ираклий К. ДЗ 3</title>
 </head>
+
 <body>
+    <style>
+        .red {
+        border: 2px solid red;
+        outline: none;
+    }
+    .green {
+        border: 2px solid green;
+        outline: none;
+    }
+    </style>
     <p id="text">
         A: 'asdjawjdhaiwdhajd aren't' <br>
         B: 'sadawdw i'm' <br>
@@ -16,28 +28,114 @@
     </p>
 
     <form action="#">
-        <input type="text" id="name"> <br>
-        <input type="text" id="tel"> <br>
-        <input type="text" id="mail"> <br>
-        <textarea id="message"></textarea> <br>
+        <span>Имя</span> <br>
+        <input type="text" id="name" class="valid"> <br>
+        <span>Телефон</span> <br>
+        <input type="text" id="tel" class="valid"> <br>
+        <span>Почта</span> <br>
+        <input type="text" id="mail" class="valid"> <br>
+        <span>Сообщение</span> <br>
+        <textarea id="message" class="valid"></textarea> <br>
         <input type="submit" value="Отправить" id="send">
+        <input type="reset" value="Сброс" id="reset">
     </form>
 
     <script>
-    const text = document.querySelector('#text');
-    let capRep = /(?<=\s)\'|\'+(?=\s)/gmi;
+        const text = document.querySelector('#text');
+        let capRep = /(?<=\s)\'|\'(?=\s)/gmi;
         text.innerText = text.innerText.replace(capRep, '"');
 
-    let userName = document.querySelector('#name').value;
-    let userPhone = document.querySelector('#tel').value;
-    let userMail = document.querySelector('#mail').value;
-    let userMessage = document.querySelector('#message').value;
-    const sendAndValid = document.querySelector('#send');
+        const sendAndValid = document.querySelector('#send');
+        const reset = document.querySelector('#reset');
+        const validName = /[a-zа-яё]|[^[0-9]][^\W]/gmi; /*new RegExp('[0-9]|\W', 'gmi');*/
+        const validPhone = /8\s\(9[0-9]{2}\)\s[0-9]{3}\s[0-9]{4}|[^a-zа-яё]/gm;
+        const validMail = /(.+\..+@.+\..+)|(.+@.+\..+)/gmi;
 
-    sendAndValid.addEventListener('click', function() {
-        console.log(userName);
-    })
-    
+        function startValid () {
+            let userName = document.querySelector('#name').value;
+            let userPhone = document.querySelector('#tel').value;
+            let userMail = document.querySelector('#mail').value;
+            let userMessage = document.querySelector('#message').value;
+            let errorColor = document.getElementsByClassName('valid');
+
+            console.log(errorColor);
+
+            function changeColorOnError(n) {
+                errorColor[n].classList.remove('green');
+                errorColor[n].classList.add('red');
+            }
+
+            function changeColorOnValidOk(n) {
+                errorColor[n].classList.remove('red');
+                errorColor[n].classList.add('green');
+            }
+
+            function chekName() {
+                switch (validName.test(userName)) {
+                    case false:
+                        alert('Имя должно состоять только из букв латиницы или кириллицы');
+                        changeColorOnError(0);
+                        break;
+                    case true:
+                        changeColorOnValidOk(0);
+                        break;
+                }
+            }
+
+            function chekPhone() {
+                switch (validPhone.test(userPhone)) {
+                    case false:
+                        alert('Номер теефона не может содржать буквы \nДолжен иметь формат: 8 (9xx) xxx xxxx');
+                        changeColorOnError(1);
+                        break;
+                    case true:
+                        changeColorOnValidOk(1);
+                        break;
+                }
+            }
+
+            function checkMail() {
+                switch (validMail.test(userMail)) {
+                    case false:
+                        alert('Почта должна быть формата: "example@example.ex"');
+                        changeColorOnError(2);
+                        break;
+                    case true:
+                        changeColorOnValidOk(2);
+                        break;
+                }
+            }
+
+            function checkMessage() {
+                // switch (validMessage.test(userMessage)) {
+                //     case false:
+                //         alert('Почта должна быть формата: "example@example.ex"');
+                //         changeColorOnError(2);
+                //         break;
+                //     case true:
+                //         changeColorOnValidOk(2);
+                //         break;
+                // }
+                switch(userMessage) {
+                    case '':
+                    alert('Введите сообщение');
+                    changeColorOnError(3);
+                    break;
+                }
+            }
+
+            chekName();
+            chekPhone();
+            checkMail();
+            checkMessage();
+             sendAndValid.removeEventListener('click', startValid)
+            
+        }
+        sendAndValid.addEventListener('click', startValid);
+        reset.addEventListener('click', function () {
+            sendAndValid.addEventListener('click', startValid);
+        })
     </script>
 </body>
+
 </html>

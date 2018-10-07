@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ираклий К. ДЗ 3</title>
+</head>
+<body>
+    <p id="text">
+        A: 'asdjawjdhaiwdhajd aren't' <br>
+        B: 'sadawdw i'm' <br>
+        A: 'sadwd did't' <br>
+        B: 'what i've done?' <br> <!-- LP 4 ever :P \m/ ^_^ \m/ -->
+        C: 'hi! i'm Braian O'Connor!' <br>
+    </p>
+
+    <form action="#">
+        <input type="text" id="name"> <br>
+        <input type="text" id="tel"> <br>
+        <input type="text" id="mail"> <br>
+        <textarea id="message"></textarea> <br>
+        <input type="submit" value="Отправить" id="send">
+    </form>
+
+    <script>
+    const text = document.querySelector('#text');
+    let capRep = /(?<=\s)\'|\'+(?=\s)/gmi;
+        text.innerText = text.innerText.replace(capRep, '"');
+
+    let userName = document.querySelector('#name').value;
+    let userPhone = document.querySelector('#tel').value;
+    let userMail = document.querySelector('#mail').value;
+    let userMessage = document.querySelector('#message').value;
+    const sendAndValid = document.querySelector('#send');
+
+    sendAndValid.addEventListener('click', function() {
+        console.log(userName);
+    })
+    
+    </script>
+</body>
+</html>

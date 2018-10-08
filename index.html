@@ -46,12 +46,11 @@
         text.innerText = text.innerText.replace(capRep, '"');
 
         const sendAndValid = document.querySelector('#send');
-        const reset = document.querySelector('#reset');
         const validName = /[a-zа-яё]|[^[0-9]][^\W]/gmi; /*new RegExp('[0-9]|\W', 'gmi');*/
         const validPhone = /8\s\(9[0-9]{2}\)\s[0-9]{3}\s[0-9]{4}|[^a-zа-яё]/gm;
         const validMail = /(.+\..+@.+\..+)|(.+@.+\..+)/gmi;
 
-        function startValid () {
+        sendAndValid.addEventListener('click', function() {
             let userName = document.querySelector('#name').value;
             let userPhone = document.querySelector('#tel').value;
             let userMail = document.querySelector('#mail').value;
@@ -116,24 +115,24 @@
                 //         changeColorOnValidOk(2);
                 //         break;
                 // }
-                switch(userMessage) {
-                    case '':
+                if (userMessage == '') {
                     alert('Введите сообщение');
                     changeColorOnError(3);
-                    break;
+                } else {
+                    changeColorOnValidOk(3);
                 }
+                // switch(userMessage) {
+                //     case '':
+                //     alert('Введите сообщение');
+                //     changeColorOnError(3);
+                //     break;
+                // }
             }
 
             chekName();
             chekPhone();
             checkMail();
             checkMessage();
-             sendAndValid.removeEventListener('click', startValid)
-            
-        }
-        sendAndValid.addEventListener('click', startValid);
-        reset.addEventListener('click', function () {
-            sendAndValid.addEventListener('click', startValid);
         })
     </script>
 </body>

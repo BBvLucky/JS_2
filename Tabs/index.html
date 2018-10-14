@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ираклий К. ДЗ 4</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+</head>
+<style>
+    .tabs-wrapper {
+        background-color: #f8f8f8;
+
+        width: 700px;
+        margin: 0 auto;
+    }
+
+    .tabs-content-wrapper {
+        border: 1px solid lightblue;
+        border-top: none;
+        padding-left: 10px;
+    }
+
+    .tabs-navs {
+        display: flex;
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        background-color: white;
+        border-bottom: 1px solid lightblue;
+    }
+
+    .nav-item {
+        background-color: lightblue;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        margin-right: 3px;
+        border: 1px solid lightblue;
+        border-bottom: none;
+        position: relative;
+    }
+
+    .active:after {
+        content: "";
+        display: block;
+        background-color: #f8f8f8;
+        width: 100%;
+        height: 1px;
+        position: absolute;
+    }
+
+    .tab-text {
+        display: none;
+    }
+
+    .active {
+        display: block;
+        background-color: #f8f8f8;
+    }
+</style>
+<div class="tabs-wrapper">
+    <ul class="tabs-navs">
+        <li class="nav-item active"><a href="#" class="nav-link">Вкладка 1</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Вкладка 2</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Вкладка 3</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Вкладка 4</a></li>
+    </ul>
+    <div class="tabs-content-wrapper">
+        <p class="tab-text active">Lorem ipsum dolor sit amet.</p>
+        <p class="tab-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Itaque, perspiciatis!</p>
+        <p class="tab-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis doloribus ipsa quae?</p>
+        <p class="tab-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi cupiditate molestiae culpa
+            quos, esse quidem molestias dignissimos architecto sed aspernatur hic nam necessitatibus natus? Illum.</p>
+    </div>
+</div>
+<script>
+        let tabs = $('.nav-item').on('click', function () {
+            $(this).addClass('active').siblings().removeClass('active').closest('.tabs-wrapper').find(
+                '.tab-text').removeClass('active').eq($(this).index()).addClass('active')
+        })
+</script>
+
+<body>
+
+
+</body>
+
+</html>

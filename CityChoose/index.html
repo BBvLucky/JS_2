@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ираклий К. ДЗ 4</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+</head>
+
+<body>
+    <style>
+        option,
+        select {
+            text-transform: capitalize;
+        }
+    </style>
+    <div class="container">
+        <h2>Обратная связь</h2>
+        <form action="#">
+            <input type="text" placeholder="Имя">
+            <input type="text" placeholder="e-mail">
+            <select class="form-control" id="select">
+                <option>Default select</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+    </div>
+<script>
+    $.ajax({
+        url: 'http://89.108.65.123/cities',
+        dataType: 'json',
+        success: function (cityList) {
+            let addList = $(cityList).each(function (i) {
+                $('select').append(`<option>${$(cityList)[i].name}</options>`)
+            })
+        },
+        error: function (err) {
+            console.error(err)
+        }
+    })
+</script>
+</body>
+
+</html>

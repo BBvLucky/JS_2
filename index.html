@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/parsleyjs@2.8.1/dist/parsley.min.js"></script>
+    <link rel="stylesheet" href="jquery-ui-1.12.1.custom/jquery-ui.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+</head>
+
+<body>
+    <style>
+     #viewport {
+         width: 500px;
+         margin: 0 auto;
+         overflow: hidden;
+         user-select: none;
+         position: relative;
+     }
+
+     #slider-wrapper img {
+         width: 100%;
+     }
+
+     #slider-wrapper {
+         list-style-type: none;
+         margin: 0;
+         padding: 0;
+         width: calc(100% * 5);
+         position: relative;
+         top: 0;
+         left: 0;
+         transition: 0.5s;
+         transition-timing-function: ease-in-out;
+         display: flex;
+     }
+
+     #slider-wrapper li {
+         margin: 0;
+         padding: 0;
+         width: calc(100% / 5);
+     }
+
+     #prev,
+     #next {
+         width: 40px;
+         height: 40px;
+         outline: none;
+         border: none;
+         background-color: rgba(150, 150, 150, 0.7);
+         border-radius: 50%;
+         cursor: pointer;
+         position: absolute;
+         top: calc(50% - 20px);
+         color: rgba(250, 250, 250, 0.7);
+         font-size: 20px;
+         font-family: Arial, Helvetica, sans-serif;
+         font-weight: bold;
+     }
+
+     #prev {
+         left: 20px;
+     }
+
+     #next {
+         right: 20px;
+     }
+
+     #next:hover,
+     #prev:hover {
+         background-color: rgba(200, 200, 200, 0.9);
+         color: rgba(0, 0, 0, 0.9)
+     }
+    </style>
+    <div class="container">
+            <header>
+                <div class="" id="viewport">
+                    <ul id="slider-wrapper">
+                        <li><a href="#"><img src="img/canon-camera.jpg" alt="camera"></a></li>
+                        <li><a href="#"><img src="img/lenovo.jpg" alt="lenovo"></a></li>
+                        <li><a href="#"><img src="img/mi-band-3.jpg" alt="mi-mand"></a></li>
+                        <li><a href="#"><img src="img/mi-notebook.jpg" alt="mi-notebook"></a></li>
+                        <li><a href="#"><img src="img/ps-3.jpg" alt="ps-3"></a></li>
+                    </ul>
+                    <div id="slider-btns">
+                        <button id="prev"><</button>
+                        <button id="next">></button>
+                    </div>
+                </div>
+            </header>
+        <form id="form">
+            <div class="form-group">
+                <label for="name">Имя</label>
+                <input type="text" class="form-control" id="name">
+            </div>
+            <div class="form-group">
+                <label for="email">Адрес почты</label>
+                <input type="email" class="form-control" id="email" data-parsley-type="email">
+            </div>
+            <div class="form-group">
+                <label for="birth-date">Дата рождения</label>
+                <input type="text" class="form-control" id="birth-date">
+            </div>
+            <div id="progressbar" style="margin-bottom: 20px"></div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function () {
+            //carousel
+
+            let slideCurrent = 1;
+            let sliderCount = $('#slider-wrapper').children().length;
+            let changeSlide = 0;
+            let sliderInterval = 2000;
+
+            function nextSlide () {
+                if (slideCurrent == sliderCount || slideCurrent <= 0 || slideCurrent > sliderCount) {
+                    $('#slider-wrapper').css('transform', 'translate(0, 0)');
+                    slideCurrent = 1;
+                } else {
+                    changeSlide = -$('#viewport').width() * (slideCurrent);
+                    $('#slider-wrapper').css({
+                        'transform': 'translate(' + changeSlide + 'px, 0)'
+                    })
+                    slideCurrent++;
+                }
+            }
+                let sliderIntervalSwitch = setInterval(nextSlide, sliderInterval)
+
+            $('#viewport').hover(function () {
+                clearInterval(sliderIntervalSwitch);
+            }, function() {
+                sliderIntervalSwitch = setInterval(nextSlide, sliderInterval)
+            })
+
+            function prevSlide() {
+                if (slideCurrent == 1 || slideCurrent <= 0 || slideCurrent > sliderCount) {
+                    changeSlide = -$('#viewport').width() * (sliderCount - 1);
+                    $('#slider-wrapper').css({
+                        'transform': 'translate(' + changeSlide + 'px, 0)'
+                    });
+                    slideCurrent = sliderCount;
+                } else {
+                    changeSlide = -$('#viewport').width() * (slideCurrent - 2);
+                    $('#slider-wrapper').css({
+                        'transform': 'translate(' + changeSlide + 'px, 0)'
+                    });
+                    slideCurrent--;
+                }
+            }
+
+            $('#prev').on('click', function(e) {
+                e.preventDefault;
+                prevSlide();
+            })
+            $('#next').on('click', function(e) {
+                e.preventDefault;
+                nextSlide();
+            })
+        })
+
+        //progress bar
+        let progress = $('#progressbar').progressbar({
+            value: 0
+        })
+        
+        let i = 0;
+        
+        $('.form-control').change(function () {
+            i = i + 33.3;
+            progress.progressbar('value', i)
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ираклий К. ДЗ 1</title>
+    <script src="https://cdn.jsdelivr.net/npm/mocha@5.2.0/mocha.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mocha@5.2.0/mocha.css">
+    <link rel="stylesheet" href="css.css">
+    <script>
+        mocha.setup('bdd');
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chai@4.2.0/chai.js"></script>
+    <script>
+        let assert = chai.assert;
+    </script>
+</head>
+<body>
+    <div class="wrapper">
+        <h2>Кофеварка KIDteck</h2>
+        <input type="number" name="water" id="water" placeholder="Кол-во воды, ml">
+        <input type="number" name="beans" id="beans" placeholder="Кол-во зёрен">
+        <input type="number" name="temp" id="temp" placeholder="Температура (не менее 70&deg;)">
+        <input type="button" value="Старт" id="start">
+        <input type="button" value="Стоп" id="stop">
+        <span id="info">Добро пожаловать!</span>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="test.js"></script>
+
+    <div id="mocha"></div>
+
+    <script>
+        mocha.run();
+    </script>
+</body>
+</html>
